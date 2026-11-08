@@ -5,7 +5,10 @@ import 'package:flutter/services.dart';
 /// Вызывать из setUpAll: внутри testWidgets часы поддельные и загрузка зависает.
 /// Подключает настоящие шрифты вместо тестового Ahem, чтобы раскладка совпадала с телефоном.
 Future<void> loadTestFonts() async {
-  const dir = 'C:/develop/flutter/bin/cache/artifacts/material_fonts';
+  // flutter_tester лежит внутри SDK: .../bin/cache/artifacts/engine/<платформа>/flutter_tester.
+  final exe = Platform.resolvedExecutable.replaceAll(r'\', '/');
+  final cache = exe.substring(0, exe.indexOf('/bin/cache/') + '/bin/cache'.length);
+  final dir = '$cache/artifacts/material_fonts';
   Future<void> font(String family, List<String> files) async {
     final l = FontLoader(family);
     for (final f in files) {

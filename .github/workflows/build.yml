@@ -48,8 +48,9 @@ jobs:
           path: build/app/outputs/flutter-apk/app-release.apk
           if-no-files-found: error
 
+      # Без постоянного ключа релиз не публикуется: APK с отладочной подписью не встанет поверх подписанного.
       - name: Publish the APK as the latest release
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/main' && env.KEYSTORE_BASE64 != ''
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
